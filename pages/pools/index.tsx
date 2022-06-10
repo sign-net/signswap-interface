@@ -7,27 +7,35 @@ import {
   SortParameters,
   useSortPools,
 } from 'features/liquidity'
-import { useMultiplePoolsLiquidity } from 'hooks/usePoolLiquidity'
-import { useBaseTokenInfo } from 'hooks/useTokenInfo'
-import { useTokenList } from 'hooks/useTokenList'
-import { Column, Inline, media, Spinner, styled, Text } from 'junoblocks'
+import {
+  Column,
+  ErrorIcon,
+  Inline,
+  media,
+  Spinner,
+  styled,
+  Text,
+} from 'junoblocks'
 import React, { useMemo, useState } from 'react'
 
-export default function Pools() {
-  const { symbol: baseTokenSymbol } = useBaseTokenInfo() || {}
+import { useQueriesDataSelector } from '../../hooks/useQueriesDataSelector'
+import { usePoolsListQuery } from '../../queries/usePoolsListQuery'
+import { useQueryMultiplePoolsLiquidity } from '../../queries/useQueryPools'
 
-  const [supportedTokens, poolIds] = usePlatformPools()
-  const [liquidity, isLoading] = useMultiplePoolsLiquidity({
-    refetchInBackground: false,
-    poolIds,
-  })
+export default function Pools() {
+  const { data: poolsListResponse } = usePoolsListQuery()
+  const [pools, isLoading, isError] = useQueriesDataSelector(
+    useQueryMultiplePoolsLiquidity({
+      refetchInBackground: false,
+      pools: poolsListResponse?.pools,
+    })
+  )
 
   const { sortDirection, sortParameter, setSortDirection, setSortParameter } =
     useSortControllers()
 
   const [myPools, allPools] = useSortPools({
-    liquidity,
-    supportedTokens,
+    pools,
     sortBy: useMemo(
       () => ({
         parameter: sortParameter,
@@ -37,16 +45,42 @@ export default function Pools() {
     ),
   })
 
-  const shouldShowFetchingState = isLoading && !liquidity?.length
-  const shouldRenderPools = Boolean(liquidity?.length)
+  const shouldShowFetchingState = isLoading && !pools?.length
+  const shouldRenderPools = Boolean(pools?.length)
+
+  const pageHeaderContents = (
+    <PageHeader
+      title="Liquidity"
+      subtitle="Provide liquidity to the market and
+        receive swap fees from each trade."
+    />
+  )
+
+  if (isError) {
+    return (
+      <AppLayout>
+        {pageHeaderContents}
+        <Column
+          justifyContent="center"
+          align="center"
+          css={{ paddingTop: '$24' }}
+        >
+          <Inline gap={2}>
+            <ErrorIcon color="error" />
+            <Text variant="primary">
+              {
+                "Oops, we've messed up querying the pools. Please come back later."
+              }
+            </Text>
+          </Inline>
+        </Column>
+      </AppLayout>
+    )
+  }
 
   return (
     <AppLayout>
-      <PageHeader
-        title="Liquidity"
-        subtitle="Provide liquidity to the market and
-        receive swap fees from each trade."
-      />
+      {pageHeaderContents}
 
       {shouldShowFetchingState && (
         <>
@@ -69,18 +103,26 @@ export default function Pools() {
               </Text>
 
               <StyledDivForPoolsGrid>
-                {myPools.map(({ liquidityInfo, tokenB }, key) => (
-                  <PoolCard
-                    key={key}
-                    tokenASymbol={baseTokenSymbol}
-                    poolId={tokenB.pool_id}
-                    tokenBSymbol={tokenB.symbol}
-                    myLiquidity={liquidityInfo.myLiquidity}
-                    myStakedLiquidity={liquidityInfo.myStakedLiquidity}
-                    totalLiquidity={liquidityInfo.totalLiquidity}
-                    rewardsInfo={liquidityInfo.rewardsInfo}
-                  />
-                ))}
+                {myPools.map(
+                  ({
+                    liquidity,
+                    pool_id,
+                    pool_assets: [tokenA, tokenB],
+                    rewards_tokens,
+                  }) => (
+                    <PoolCard
+                      key={pool_id}
+                      tokenASymbol={tokenA.symbol}
+                      poolId={pool_id}
+                      rewardsTokens={rewards_tokens}
+                      tokenBSymbol={tokenB.symbol}
+                      providedTotalLiquidity={liquidity.providedTotal}
+                      stakedLiquidity={liquidity.staked}
+                      availableLiquidity={liquidity.available}
+                      aprValue={liquidity.rewards.annualYieldPercentageReturn}
+                    />
+                  )
+                )}
               </StyledDivForPoolsGrid>
               {Boolean(allPools?.length) && (
                 <Inline
@@ -102,39 +144,25 @@ export default function Pools() {
             </>
           )}
           <StyledDivForPoolsGrid>
-            {allPools?.map(({ liquidityInfo, tokenB }, key) => (
-              <PoolCard
-                key={key}
-                tokenASymbol={baseTokenSymbol}
-                poolId={tokenB.pool_id}
-                tokenBSymbol={tokenB.symbol}
-                myLiquidity={liquidityInfo.myLiquidity}
-                totalLiquidity={liquidityInfo.totalLiquidity}
-                myStakedLiquidity={liquidityInfo.myStakedLiquidity}
-                rewardsInfo={liquidityInfo?.rewardsInfo}
-              />
-            ))}
+            {allPools?.map(
+              ({ liquidity, pool_id, pool_assets: [tokenA, tokenB] }) => (
+                <PoolCard
+                  key={pool_id}
+                  tokenASymbol={tokenA.symbol}
+                  poolId={pool_id}
+                  tokenBSymbol={tokenB.symbol}
+                  providedTotalLiquidity={liquidity.providedTotal}
+                  stakedLiquidity={liquidity.staked}
+                  availableLiquidity={liquidity.available}
+                  aprValue={liquidity.rewards.annualYieldPercentageReturn}
+                />
+              )
+            )}
           </StyledDivForPoolsGrid>
         </>
       )}
     </AppLayout>
   )
-}
-
-const usePlatformPools = () => {
-  const [tokenList] = useTokenList()
-
-  return useMemo(() => {
-    const tokensCollection =
-      tokenList?.tokens.filter(({ swap_address }) => Boolean(swap_address)) ??
-      []
-
-    const poolIdsCollection = tokensCollection
-      .map(({ pool_id }) => pool_id)
-      .filter(Boolean)
-
-    return [tokensCollection, poolIdsCollection] as const
-  }, [tokenList])
 }
 
 const useSortControllers = () => {
