@@ -2,10 +2,14 @@ import { SigningCosmWasmClient } from '@cosmjs/cosmwasm-stargate'
 import { coin } from '@cosmjs/stargate'
 
 import { TokenInfo } from '../../queries/usePoolsListQuery'
-import { unsafelyGetDefaultExecuteFee } from '../../util/fees'
-import { executeSwapWithIncreasedAllowance } from './executeSwapWithIncreasedAllowance'
+import {
+  createExecuteMessage,
+  createIncreaseAllowanceMessage,
+  validateTransactionSuccess,
+} from '../../util/messages'
 
-type SwapTokenAForTokenBArgs = {
+type DirectTokenSwapArgs = {
+  swapDirection: 'tokenAtoTokenB' | 'tokenBtoTokenA'
   tokenAmount: number
   price: number
   slippage: number
@@ -15,40 +19,54 @@ type SwapTokenAForTokenBArgs = {
   client: SigningCosmWasmClient
 }
 
-export const swapTokenAForTokenB = async ({
+export const directTokenSwap = async ({
   tokenA,
+  swapDirection,
   swapAddress,
   senderAddress,
   slippage,
   price,
   tokenAmount,
   client,
-}: SwapTokenAForTokenBArgs) => {
+}: DirectTokenSwapArgs) => {
   const minToken = Math.floor(price * (1 - slippage))
+
   const swapMessage = {
     swap: {
-      input_token: 'Token1',
+      input_token: swapDirection === 'tokenAtoTokenB' ? 'Token1' : 'Token2',
       input_amount: `${tokenAmount}`,
       min_output: `${minToken}`,
     },
   }
 
   if (!tokenA.native) {
-    return executeSwapWithIncreasedAllowance({
-      swapMessage,
-      swapAddress,
+    const increaseAllowanceMessage = createIncreaseAllowanceMessage({
       senderAddress,
       tokenAmount,
       tokenAddress: tokenA.token_address,
-      client,
+      swapAddress,
     })
+
+    const executeMessage = createExecuteMessage({
+      senderAddress,
+      contractAddress: swapAddress,
+      message: swapMessage,
+    })
+
+    return validateTransactionSuccess(
+      await client.signAndBroadcast(
+        senderAddress,
+        [increaseAllowanceMessage, executeMessage],
+        'auto'
+      )
+    )
   }
 
   return await client.execute(
     senderAddress,
     swapAddress,
     swapMessage,
-    unsafelyGetDefaultExecuteFee(),
+    'auto',
     undefined,
     [coin(tokenAmount, tokenA.denom)]
   )

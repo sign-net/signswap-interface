@@ -28,32 +28,34 @@ export const usePendingRewards = ({ pool }: UsePendingRewardsArgs) => {
     pool?.rewards_tokens?.length > 0 && pool?.staking_address
 
   const { data: rewards, isLoading } = useQuery(
-    `pendingRewards/${pool?.pool_id}`,
+    `pendingRewards/${pool?.pool_id}/${address}/${shouldQueryRewards}`,
     async () => {
-      return await Promise.all(
-        pool.rewards_tokens?.map(async ({ rewards_address, decimals }) => {
-          const { pending_rewards, denom } = await getPendingRewards(
-            address,
-            rewards_address,
-            client
-          )
+      if (shouldQueryRewards) {
+        return await Promise.all(
+          pool.rewards_tokens.map(async ({ rewards_address, decimals }) => {
+            const { pending_rewards, denom } = await getPendingRewards(
+              address,
+              rewards_address,
+              client
+            )
 
-          const tokenInfo = getTokenInfoByDenom({ denom })
-          const tokenAmount = convertMicroDenomToDenom(
-            Number(pending_rewards),
-            decimals ?? tokenInfo.decimals
-          )
+            const tokenInfo = getTokenInfoByDenom({ denom })
+            const tokenAmount = convertMicroDenomToDenom(
+              Number(pending_rewards),
+              decimals ?? tokenInfo.decimals
+            )
 
-          return {
-            tokenAmount,
-            tokenInfo,
-            dollarValue: await getTokenDollarValue({
+            return {
+              tokenAmount,
               tokenInfo,
-              tokenAmountInDenom: tokenAmount,
-            }),
-          }
-        })
-      )
+              dollarValue: await getTokenDollarValue({
+                tokenInfo,
+                tokenAmountInDenom: tokenAmount,
+              }),
+            }
+          })
+        )
+      }
     },
     {
       enabled: Boolean(
@@ -88,14 +90,23 @@ export const useClaimRewards = ({ pool, ...options }: UseClaimRewardsArgs) => {
     async () => {
       const hasPendingRewards =
         __POOL_REWARDS_ENABLED__ &&
-        pendingRewards?.find(({ dollarValue }) => dollarValue > 0)
+        pendingRewards?.find(({ tokenAmount }) => tokenAmount > 0)
 
       const shouldBeAbleToClaimRewards = pool && client && hasPendingRewards
 
       if (shouldBeAbleToClaimRewards) {
-        const rewardsAddresses = pool.rewards_tokens?.map(
-          ({ rewards_address }) => rewards_address
-        )
+        const rewardsAddresses = pool.rewards_tokens
+          /*
+           * filter out rewards contracts that don't have pending rewards accumulated just yet.
+           * */
+          .filter((token) => {
+            const pendingRewardsForToken = pendingRewards.find(
+              ({ tokenInfo }) => token.symbol === tokenInfo.symbol
+            )
+
+            return pendingRewardsForToken.tokenAmount > 0
+          })
+          .map(({ rewards_address }) => rewards_address)
 
         return await claimRewards(address, rewardsAddresses, client)
       }

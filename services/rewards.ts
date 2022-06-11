@@ -1,12 +1,12 @@
 import {
   CosmWasmClient,
-  MsgExecuteContractEncodeObject,
   SigningCosmWasmClient,
 } from '@cosmjs/cosmwasm-stargate'
-import { toUtf8 } from '@cosmjs/encoding'
-import { isDeliverTxFailure, StdFee } from '@cosmjs/stargate'
-import { MsgExecuteContract } from 'cosmjs-types/cosmwasm/wasm/v1/tx'
-import { unsafelyGetDefaultExecuteFee } from 'util/fees'
+
+import {
+  createExecuteMessage,
+  validateTransactionSuccess,
+} from '../util/messages'
 
 type Denom =
   | {
@@ -22,34 +22,19 @@ export const claimRewards = async (
   rewardsAddresses: Array<string>,
   client: SigningCosmWasmClient
 ) => {
-  const messageBody = toUtf8(JSON.stringify({ claim: {} }))
+  const claimRewardsMsg = { claim: {} }
 
-  const messages = rewardsAddresses.map(
-    (rewardsAddress): MsgExecuteContractEncodeObject => ({
-      typeUrl: '/cosmwasm.wasm.v1.MsgExecuteContract',
-      value: MsgExecuteContract.fromPartial({
-        sender: senderAddress,
-        contract: rewardsAddress,
-        msg: messageBody,
-        funds: [],
-      }),
+  const messages = rewardsAddresses.map((rewardsAddress) =>
+    createExecuteMessage({
+      senderAddress,
+      contractAddress: rewardsAddress,
+      message: claimRewardsMsg,
     })
   )
-  const defaultExecuteFee = unsafelyGetDefaultExecuteFee()
-  const fee: StdFee = {
-    amount: defaultExecuteFee.amount,
-    gas: String(Number(defaultExecuteFee.gas) * 2),
-  }
 
-  const result = await client.signAndBroadcast(senderAddress, messages, fee)
-
-  if (isDeliverTxFailure(result)) {
-    throw new Error(
-      `Error when broadcasting tx ${result.transactionHash} at height ${result.height}. Code: ${result.code}; Raw log: ${result.rawLog}`
-    )
-  }
-
-  return result
+  return validateTransactionSuccess(
+    await client.signAndBroadcast(senderAddress, messages, 'auto')
+  )
 }
 
 type PendingRewardsResponse = {
