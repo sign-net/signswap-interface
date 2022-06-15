@@ -17,7 +17,7 @@ import {
   protectAgainstNaN,
   Spinner,
   styled,
-  Text,
+  Text
 } from 'junoblocks'
 import { useQueryPoolLiquidity } from 'queries/useQueryPools'
 import { useEffect, useRef, useState } from 'react'
@@ -257,7 +257,7 @@ function RemoveLiquidityContent({
   }, [])
 
   const availableLiquidityDollarValue = dollarValueFormatter(
-    tokenAReserve * 2 * tokenAPrice
+    tokenAReserve * 2 * (tokenAPrice || 1)
   ) as number
 
   const liquidityToRemove = availableLiquidityDollarValue * liquidityPercentage
@@ -278,13 +278,13 @@ function RemoveLiquidityContent({
         <StyledGridForDollarValueTxInfo>
           <Text variant="caption" color="tertiary" css={{ padding: '$6 0 $9' }}>
             Available liquidity: $
-            {dollarValueFormatterWithDecimals(availableLiquidityDollarValue, {
+            {dollarValueFormatterWithDecimals(tokenAPrice ? availableLiquidityDollarValue : 0, {
               includeCommaSeparation: true,
             })}
           </Text>
           <Text variant="caption" color="tertiary" css={{ padding: '$6 0 $9' }}>
             ≈ ${' '}
-            {dollarValueFormatterWithDecimals(liquidityToRemove, {
+            {dollarValueFormatterWithDecimals(tokenAPrice ? liquidityToRemove: 0, {
               includeCommaSeparation: true,
             })}
           </Text>

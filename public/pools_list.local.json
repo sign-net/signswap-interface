@@ -9,201 +9,111 @@
     }
   },
   "base_token": {
-    "id": "juno-network",
-    "chain_id": "lucina",
+    "id": "",
+    "chain_id": "local-sign",
     "token_address": "",
-    "symbol": "JUNOX",
-    "name": "Juno",
+    "symbol": "SIGN",
+    "name": "Sign",
     "decimals": 6,
     "logoURI": "https://cryptologos.cc/logos/anyswap-any-logo.svg?v=022",
     "tags": ["native"],
     "native": true,
-    "denom": "ujuno"
+    "denom": "usign"
   },
   "timestamp": "2021-06-12T00:00:00+00:00",
   "pools": [
     {
-      "pool_id": "JUNO-POOD",
+      "pool_id": "SIGN-MOON",
       "pool_assets": [
         {
-          "id": "juno-network",
-          "chain_id": "lucina",
+          "id": "",
+          "chain_id": "local-sign",
           "token_address": "",
-          "symbol": "JUNOX",
-          "name": "Juno",
+          "symbol": "SIGN",
+          "name": "Sign",
           "decimals": 6,
-          "logoURI": "https://cryptologos.cc/logos/anyswap-any-logo.svg?v=022",
+          "logoURI": "https://cdn.discordapp.com/icons/931172014671134820/cf7328cdc0f50a84e451de5ac185b891.webp?size=512",
           "tags": ["native"],
           "native": true,
-          "denom": "ujuno"
+          "denom": "usign"
         },
         {
           "id": "",
-          "chain_id": "lucina",
-          "token_address": "juno1wl59k23zngj34l7d42y9yltask7rjlnxgccawc7ltrknp6n52fpsndlmj0",
-          "symbol": "POOD",
-          "name": "Poodle",
+          "chain_id": "local-sign",
+          "token_address": "sign14hj2tavq8fpesdwxxcu44rty3hh90vhujrvcmstl4zr3txmfvw9sah5mss",
+          "symbol": "MOON",
+          "name": "Moon",
           "decimals": 6,
-          "logoURI": "https://cryptologos.cc/logos/polygon-matic-logo.svg?v=022",
-          "tags": ["memecoin"],
+          "logoURI": "https://cryptologos.cc/logos/terra-luna-luna-logo.svg?v=022",
+          "tags": ["cw20"],
           "native": false,
-          "denom": "upood"
+          "denom": "umoon"
         }
       ],
-      "swap_address": "juno182nff4ttmvshn6yjlqj5czapfcav9434l2qzz8aahf5pxnyd33tstk25ur",
-      "staking_address": "juno1fjvnr96n8kcl6d8qzr74klqjl9wakmqv5c9hzvqwr904kp34ye8qwfl5qr",
+      "swap_address": "sign1xr3rq8yvd7qplsw5yx90ftsr2zdhg4e9z60h5duusgxpv72hud3sa979u5",
       "rewards_tokens": []
     },
     {
-      "pool_id": "JUNO-CRAB",
+      "pool_id": "SIGN-SUN",
       "pool_assets": [
         {
-          "id": "juno-network",
-          "chain_id": "lucina",
+          "id": "",
+          "chain_id": "local-sign",
           "token_address": "",
-          "symbol": "JUNOX",
-          "name": "Juno",
+          "symbol": "SIGN",
+          "name": "Sign",
           "decimals": 6,
-          "logoURI": "https://cryptologos.cc/logos/anyswap-any-logo.svg?v=022",
+          "logoURI": "https://cdn.discordapp.com/icons/931172014671134820/cf7328cdc0f50a84e451de5ac185b891.webp?size=512",
           "tags": ["native"],
           "native": true,
-          "denom": "ujuno"
+          "denom": "usign"
         },
         {
           "id": "",
-          "chain_id": "lucina",
-          "token_address": "juno14hj2tavq8fpesdwxxcu44rty3hh90vhujrvcmstl4zr3txmfvw9skjuwg8",
-          "symbol": "CRAB",
-          "name": "Crab",
+          "chain_id": "local-sign",
+          "token_address": "sign1suhgf5svhu4usrurvxzlgn54ksxmn8gljarjtxqnapv8kjnp4nrszzcwce",
+          "symbol": "SUN",
+          "name": "Sun",
           "decimals": 6,
-          "logoURI": "https://cryptologos.cc/logos/irisnet-iris-logo.svg?v=022",
-          "tags": ["memecoin"],
+          "logoURI": "https://cryptologos.cc/logos/solana-sol-logo.svg?v=022",
+          "tags": ["cw20"],
           "native": false,
-          "denom": "ucrab"
+          "denom": "usun"
         }
       ],
-      "swap_address": "juno1nc5tatafv6eyq7llkr2gv50ff9e22mnf70qgjlv737ktmt4eswrq68ev2p",
-      "staking_address": "juno16y344e8ryydmeu2g8yyfznq79j7jfnar4p59ngpvaazcj83jzsmsnvh4g8",
-      "rewards_tokens": [
-        {
-          "rewards_address": "juno193dzcmy7lwuj4eda3zpwwt9ejal00xva0vawcvhgsyyp5cfh6jyqnatq3s",
-          "token_address": "",
-          "swap_address": "",
-          "symbol": "JUNOX",
-          "name": "Juno",
-          "logoURI": "https://cryptologos.cc/logos/anyswap-any-logo.svg?v=022",
-          "native": true,
-          "denom": "ujuno",
-          "decimals": 6
-        },
-        {
-          "rewards_address": "juno1rwx6w02alc4kaz7xpyg3rlxpjl4g63x5jq292mkxgg65zqpn5llqrg099d",
-          "token_address": "juno14hj2tavq8fpesdwxxcu44rty3hh90vhujrvcmstl4zr3txmfvw9skjuwg8",
-          "swap_address": "juno1nc5tatafv6eyq7llkr2gv50ff9e22mnf70qgjlv737ktmt4eswrq68ev2p",
-          "symbol": "CRAB",
-          "name": "Crab",
-          "logoURI": "https://cryptologos.cc/logos/irisnet-iris-logo.svg?v=022",
-          "native": false,
-          "denom": "ucrab",
-          "decimals": 6
-        }
-      ]
+      "swap_address": "sign1hulx7cgvpfcvg83wk5h96sedqgn72n026w6nl47uht554xhvj9nsplew7j",
+      "rewards_tokens": []
     },
     {
-      "pool_id": "JUNO-DAO",
-      "pool_assets": [
-        {
-          "id": "juno-network",
-          "chain_id": "lucina",
-          "token_address": "",
-          "symbol": "JUNOX",
-          "name": "Juno",
-          "decimals": 6,
-          "logoURI": "https://cryptologos.cc/logos/anyswap-any-logo.svg?v=022",
-          "tags": ["native"],
-          "native": true,
-          "denom": "ujuno"
-        },
-        {
-          "id": "",
-          "chain_id": "lucina",
-          "token_address": "juno1yw4xvtc43me9scqfr2jr2gzvcxd3a9y4eq7gaukreugw2yd2f8ts9z8cq8",
-          "symbol": "DAO",
-          "name": "DAO",
-          "decimals": 6,
-          "logoURI": "https://cryptologos.cc/logos/torn-torn-logo.svg?v=022",
-          "tags": ["memecoin"],
-          "native": false,
-          "denom": "udao"
-        }
-      ],
-      "swap_address": "juno1hulx7cgvpfcvg83wk5h96sedqgn72n026w6nl47uht554xhvj9ns263mx9",
-      "staking_address": "juno1q23d30x94cm8ve243pxdc52m398r4l5ecgcfp8tud3vggcsq8s2qv7kt2z",
-      "rewards_addresses": []
-    },
-    {
-      "pool_id": "JUNO-COSM",
-      "pool_assets": [
-        {
-          "id": "juno-network",
-          "chain_id": "lucina",
-          "token_address": "",
-          "symbol": "JUNOX",
-          "name": "Juno",
-          "decimals": 6,
-          "logoURI": "https://cryptologos.cc/logos/anyswap-any-logo.svg?v=022",
-          "tags": ["native"],
-          "native": true,
-          "denom": "ujuno"
-        },
-        {
-          "id": "",
-          "chain_id": "lucina",
-          "token_address": "",
-          "symbol": "COSM",
-          "name": "Cosm",
-          "decimals": 6,
-          "logoURI": "https://cryptologos.cc/logos/nebulas-token-nas-logo.svg?v=022",
-          "tags": ["memecoin"],
-          "native": true,
-          "denom": "ucosm"
-        }
-      ],
-      "swap_address": "juno1yg8930mj8pk288lmkjex0qz85mj8wgtns5uzwyn2hs25pwdnw42slx2lw6",
-      "staking_address": "",
-      "rewards_addresses": []
-    },
-    {
-      "pool_id": "CRAB-DAO",
+      "pool_id": "MOON-SUN",
       "pool_assets": [
         {
           "id": "",
-          "chain_id": "lucina",
-          "token_address": "juno14hj2tavq8fpesdwxxcu44rty3hh90vhujrvcmstl4zr3txmfvw9skjuwg8",
-          "symbol": "CRAB",
-          "name": "Crab",
+          "chain_id": "local-sign",
+          "token_address": "sign14hj2tavq8fpesdwxxcu44rty3hh90vhujrvcmstl4zr3txmfvw9sah5mss",
+          "symbol": "MOON",
+          "name": "Moon",
           "decimals": 6,
-          "logoURI": "https://cryptologos.cc/logos/irisnet-iris-logo.svg?v=022",
-          "tags": ["memecoin"],
+          "logoURI": "https://cryptologos.cc/logos/terra-luna-luna-logo.svg?v=022",
+          "tags": ["cw20"],
           "native": false,
-          "denom": "ucrab"
+          "denom": "umoon"
         },
         {
           "id": "",
-          "chain_id": "lucina",
-          "token_address": "juno1yw4xvtc43me9scqfr2jr2gzvcxd3a9y4eq7gaukreugw2yd2f8ts9z8cq8",
-          "symbol": "DAO",
-          "name": "DAO",
+          "chain_id": "local-sign",
+          "token_address": "sign1suhgf5svhu4usrurvxzlgn54ksxmn8gljarjtxqnapv8kjnp4nrszzcwce",
+          "symbol": "SUN",
+          "name": "Sun",
           "decimals": 6,
-          "logoURI": "https://cryptologos.cc/logos/torn-torn-logo.svg?v=022",
-          "tags": ["memecoin"],
+          "logoURI": "https://cryptologos.cc/logos/solana-sol-logo.svg?v=022",
+          "tags": ["cw20"],
           "native": false,
-          "denom": "udao"
+          "denom": "usun"
         }
       ],
-      "swap_address": "juno187zds75uenfxht2zqz7e0wxn3ushcawvf2ndrns6q63hgfn6ptqq7d7smp",
-      "staking_address": "",
-      "rewards_addresses": []
+      "swap_address": "sign1z7asfxkwv0t863rllul570eh5pf2zk07k3d86ag4vtghaue37l5s8mv3xa",
+      "rewards_tokens": []
     }
   ],
   "version": {
