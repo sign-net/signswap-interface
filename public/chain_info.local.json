@@ -1,6 +1,6 @@
 {
   "chainId": "local-sign",
-  "chainName": "Sign (Local)",
+  "chainName": "SIGN (Local)",
   "rpc": "http://localhost:26657/",
   "rest": "http://localhost:1317/",
   "stakeCurrency": {

@@ -1,45 +1,43 @@
 {
-  "chainId": "uni-3",
-  "chainName": "Juno Uni Testnet",
-  "rpc": "https://rpc.uni.juno.deuslabs.fi:443/",
-  "rest": "https://lcd.uni.juno.deuslabs.fi:443/",
+  "chainId": "notar-1",
+  "chainName": "SIGN (Testnet)",
+  "rpc": "https://rpc-test.sign.net/",
+  "rest": "https://lcd-test.sign.net/",
   "stakeCurrency": {
-    "coinDenom": "JUNOX",
-    "coinMinimalDenom": "ujunox",
+    "coinDenom": "SIGN",
+    "coinMinimalDenom": "usign",
     "coinDecimals": 6
   },
   "bip44": {
     "coinType": 118
   },
   "bech32Config": {
-    "bech32PrefixAccAddr": "juno",
-    "bech32PrefixAccPub": "junopub",
-    "bech32PrefixValAddr": "junovaloper",
-    "bech32PrefixValPub": "junovaloperpub",
-    "bech32PrefixConsAddr": "junovalcons",
-    "bech32PrefixConsPub": "junovalconspub"
+    "bech32PrefixAccAddr": "sign",
+    "bech32PrefixAccPub": "signpub",
+    "bech32PrefixValAddr": "signvaloper",
+    "bech32PrefixValPub": "signvaloperpub",
+    "bech32PrefixConsAddr": "signvalcons",
+    "bech32PrefixConsPub": "signvalconspub"
   },
   "currencies": [
     {
-      "coinDenom": "JUNOX",
-      "coinMinimalDenom": "ujunox",
-      "coinDecimals": 6,
-      "coinGeckoId": "juno-network"
+      "coinDenom": "SIGN",
+      "coinMinimalDenom": "usign",
+      "coinDecimals": 6
     }
   ],
   "feeCurrencies": [
     {
-      "coinDenom": "JUNOX",
-      "coinMinimalDenom": "ujunox",
-      "coinDecimals": 6,
-      "coinGeckoId": "juno-network"
+      "coinDenom": "SIGN",
+      "coinMinimalDenom": "usign",
+      "coinDecimals": 6
     }
   ],
   "coinType": 118,
   "gasPriceStep": {
-    "low": 0.025,
-    "average": 0.05,
-    "high": 0.1
+    "low": 0,
+    "average": 0.025,
+    "high": 0.05
   },
-  "features": ["cosmwasm"]
+  "features": ["cosmwasm", "wasmd_0.24+"]
 }

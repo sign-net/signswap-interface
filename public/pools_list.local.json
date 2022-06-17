@@ -1,6 +1,6 @@
 {
   "name": "Testnet pools list",
-  "logoURI": "https://s3.amazonaws.com/cdn-origin-etr.akc.org/wp-content/uploads/2017/11/29231450/Poodle-Standard-Gray-On-White-Standing.jpg",
+  "logoURI": "https://avatars.githubusercontent.com/u/97530366?s=200&v=4",
   "keywords": ["special pools"],
   "tags": {
     "ProjectName": {
@@ -15,7 +15,7 @@
     "symbol": "SIGN",
     "name": "Sign",
     "decimals": 6,
-    "logoURI": "https://cryptologos.cc/logos/anyswap-any-logo.svg?v=022",
+    "logoURI": "https://cdn.discordapp.com/icons/931172014671134820/cf7328cdc0f50a84e451de5ac185b891.webp?size=512",
     "tags": ["native"],
     "native": true,
     "denom": "usign"
