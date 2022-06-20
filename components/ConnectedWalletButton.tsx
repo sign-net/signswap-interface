@@ -14,9 +14,8 @@ import {
   Text,
   Tooltip,
   Valid,
-  Wallet,
+  Wallet
 } from 'junoblocks'
-import React from 'react'
 import { useRecoilValue } from 'recoil'
 import { walletState } from 'state/atoms/walletAtoms'
 

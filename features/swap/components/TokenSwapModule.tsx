@@ -9,6 +9,7 @@ import {
 
 import { useTokenToTokenPrice } from '../hooks'
 import { tokenSwapAtom } from '../swapAtoms'
+import { AddTokens } from './AddTokens'
 import { TokenSelector } from './TokenSelector'
 import { TransactionAction } from './TransactionAction'
 import { TransactionTips } from './TransactionTips'
@@ -25,6 +26,7 @@ export const TokenSwapModule = ({ initialTokenPair }: TokenSwapModuleProps) => {
 
   /* fetch token list and set initial state */
   const [tokenList, isTokenListLoading] = useTokenList()
+
   useEffect(() => {
     const shouldSetDefaultTokenAState =
       !tokenA.tokenSymbol && !tokenB.tokenSymbol && tokenList
@@ -120,6 +122,11 @@ export const TokenSwapModule = ({ initialTokenPair }: TokenSwapModuleProps) => {
         isPriceLoading={isPriceLoading}
         tokenToTokenPrice={tokenPrice}
         size={uiSize}
+      />
+      <AddTokens
+        tokenASymbol={tokenA.tokenSymbol}
+        tokenBSymbol={tokenB.tokenSymbol}
+        disabled={isUiDisabled}
       />
     </>
   )
