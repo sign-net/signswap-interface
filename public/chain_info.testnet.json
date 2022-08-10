@@ -1,6 +1,6 @@
 {
   "chainId": "notar-1",
-  "chainName": "SIGN (Testnet)",
+  "chainName": "SIGN (DevNet)",
   "rpc": "https://rpc-test.sign.net/",
   "rest": "https://lcd-test.sign.net/",
   "stakeCurrency": {
